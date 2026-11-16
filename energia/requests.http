@@ -1,0 +1,76 @@
+### Troque pela URL do Render depois do deploy
+@base = http://localhost:8080
+
+### Status da API
+GET {{base}}/
+
+### Criar unidade consumidora
+POST {{base}}/unidades
+Content-Type: application/json
+
+{
+  "nome": "Residência Silva",
+  "endereco": "Rua das Flores, 100",
+  "cidade": "São Paulo",
+  "tipo": "RESIDENCIAL"
+}
+
+### Listar unidades (filtro opcional por cidade)
+GET {{base}}/unidades
+GET {{base}}/unidades?cidade=São Paulo
+
+### Buscar unidade por id
+GET {{base}}/unidades/1
+
+### Atualizar unidade
+PUT {{base}}/unidades/1
+Content-Type: application/json
+
+{
+  "nome": "Residência Silva (atualizada)",
+  "endereco": "Rua das Flores, 100",
+  "cidade": "São Paulo",
+  "tipo": "RESIDENCIAL",
+  "ativa": true
+}
+
+### Registrar leitura de consumo
+POST {{base}}/leituras
+Content-Type: application/json
+
+{
+  "unidadeId": 1,
+  "dataLeitura": "2026-11-01",
+  "consumoKwh": 245.50,
+  "valorTarifaKwh": 0.8975
+}
+
+### Listar leituras (filtro opcional por unidade)
+GET {{base}}/leituras
+GET {{base}}/leituras?unidadeId=1
+
+### Atualizar leitura
+PUT {{base}}/leituras/1
+Content-Type: application/json
+
+{
+  "unidadeId": 1,
+  "dataLeitura": "2026-11-01",
+  "consumoKwh": 250.00,
+  "valorTarifaKwh": 0.8975
+}
+
+### Excluir leitura
+DELETE {{base}}/leituras/1
+
+### Excluir unidade (só funciona se não tiver leituras)
+DELETE {{base}}/unidades/1
+
+### Teste de validação (deve retornar 400 com detalhes)
+POST {{base}}/unidades
+Content-Type: application/json
+
+{
+  "nome": "",
+  "cidade": "São Paulo"
+}
